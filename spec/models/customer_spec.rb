@@ -22,4 +22,7 @@ RSpec.describe Customer, type: :model do
       it { should_not allow_value('user_at_foo.org').for(:email) }
     end
   end
+
+  it { should have_many(:orders) }
+  it { should have_many(:ratings) }
 end

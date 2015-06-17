@@ -9,4 +9,7 @@ RSpec.describe Book, type: :model do
     should validate_numericality_of(:price).
       is_greater_than_or_equal_to(0.01)
   end
+
+  it { should belong_to(:author) }
+  it { should have_many(:ratings) }
 end

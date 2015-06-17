@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617125341) do
+ActiveRecord::Schema.define(version: 20150617151120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,12 @@ ActiveRecord::Schema.define(version: 20150617125341) do
     t.integer  "stock"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "author_id"
+    t.integer  "category_id"
   end
 
+  add_index "books", ["author_id"], name: "index_books_on_author_id", using: :btree
+  add_index "books", ["category_id"], name: "index_books_on_category_id", using: :btree
   add_index "books", ["title"], name: "index_books_on_title", unique: true, using: :btree
 
   create_table "categories", force: :cascade do |t|
@@ -57,8 +61,17 @@ ActiveRecord::Schema.define(version: 20150617125341) do
   create_table "ratings", force: :cascade do |t|
     t.integer  "score"
     t.text     "review"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "book_id"
+    t.integer  "customer_id"
   end
 
+  add_index "ratings", ["book_id"], name: "index_ratings_on_book_id", using: :btree
+  add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id", using: :btree
+
+  add_foreign_key "books", "authors"
+  add_foreign_key "books", "categories"
+  add_foreign_key "ratings", "books"
+  add_foreign_key "ratings", "customers"
 end
