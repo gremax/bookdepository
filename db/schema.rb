@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617192139) do
+ActiveRecord::Schema.define(version: 20150617200120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,19 @@ ActiveRecord::Schema.define(version: 20150617192139) do
 
   add_index "countries", ["name"], name: "index_countries_on_name", unique: true, using: :btree
 
+  create_table "credit_cards", force: :cascade do |t|
+    t.string   "number",      limit: 16
+    t.string   "exp_month",   limit: 2
+    t.string   "exp_year",    limit: 2
+    t.string   "firstname"
+    t.string   "lastname"
+    t.integer  "customer_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "credit_cards", ["customer_id"], name: "index_credit_cards_on_customer_id", using: :btree
+
   create_table "customers", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
@@ -116,6 +129,7 @@ ActiveRecord::Schema.define(version: 20150617192139) do
   add_foreign_key "addresses", "countries"
   add_foreign_key "books", "authors"
   add_foreign_key "books", "categories"
+  add_foreign_key "credit_cards", "customers"
   add_foreign_key "order_items", "books"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "customers"
