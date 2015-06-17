@@ -11,5 +11,6 @@ RSpec.describe Book, type: :model do
   end
 
   it { should belong_to(:author) }
+  it { should belong_to(:category) }
   it { should have_many(:ratings) }
 end
