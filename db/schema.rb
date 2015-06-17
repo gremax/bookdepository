@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617190658) do
+ActiveRecord::Schema.define(version: 20150617192139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "address"
+    t.string   "zipcode",    limit: 5
+    t.string   "city"
+    t.string   "phone",      limit: 12
+    t.integer  "country_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "addresses", ["country_id"], name: "index_addresses_on_country_id", using: :btree
 
   create_table "authors", force: :cascade do |t|
     t.string   "firstname"
@@ -101,6 +113,7 @@ ActiveRecord::Schema.define(version: 20150617190658) do
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id", using: :btree
   add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id", using: :btree
 
+  add_foreign_key "addresses", "countries"
   add_foreign_key "books", "authors"
   add_foreign_key "books", "categories"
   add_foreign_key "order_items", "books"
