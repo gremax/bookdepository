@@ -9,4 +9,14 @@ RSpec.describe Address, type: :model do
   it { should validate_length_of(:phone).is_at_least(5).is_at_most(12) }
 
   it { should belong_to(:country) }
+  it do
+    should have_many(:billing_orders).
+      class_name('Order').
+      with_foreign_key('billing_address_id')
+  end
+  it do
+    should have_many(:shipping_orders).
+      class_name('Order').
+      with_foreign_key('shipping_address_id')
+  end
 end

@@ -1,9 +1,10 @@
 class Order < ActiveRecord::Base
   belongs_to :customer
   belongs_to :credit_card
+  belongs_to :billing_address, class_name: 'Address'
+  belongs_to :shipping_address, class_name: 'Address'
+
   has_many :order_items
-  has_one :billing_address
-  has_one :shipping_address
 
   validates :total_price, :state, :completed_at, presence: true
   validates :total_price, numericality: { greater_than_or_equal_to: 0.01 }
