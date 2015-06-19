@@ -1,6 +1,6 @@
 class CreditCard < ActiveRecord::Base
   belongs_to :customer
-  has_many :orders
+  has_many :orders, dependent: :destroy
 
   validates :number, :exp_month, :exp_year, :firstname, :lastname, presence: true
   validates :number, length: { is: 16 }

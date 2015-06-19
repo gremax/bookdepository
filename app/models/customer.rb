@@ -1,8 +1,8 @@
 class Customer < ActiveRecord::Base
   has_secure_password
 
-  has_many :orders
-  has_many :ratings
+  has_many :orders, dependent: :destroy
+  has_many :ratings, dependent: :destroy
 
   validates :firstname, :lastname, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false },

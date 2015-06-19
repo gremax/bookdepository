@@ -4,5 +4,5 @@ RSpec.describe Category, type: :model do
   it { should validate_presence_of(:title) }
   it { should validate_uniqueness_of(:title) }
 
-  it { should have_many(:books) }
+  it { should have_many(:books).dependent(:destroy) }
 end

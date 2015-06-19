@@ -23,6 +23,6 @@ RSpec.describe Customer, type: :model do
     end
   end
 
-  it { should have_many(:orders) }
-  it { should have_many(:ratings) }
+  it { should have_many(:orders).dependent(:destroy) }
+  it { should have_many(:ratings).dependent(:destroy) }
 end

@@ -11,5 +11,5 @@ RSpec.describe CreditCard, type: :model do
   it { should validate_length_of(:exp_year).is_equal_to(2) }
 
   it { should belong_to(:customer) }
-  it { should have_many(:orders) }
+  it { should have_many(:orders).dependent(:destroy) }
 end
