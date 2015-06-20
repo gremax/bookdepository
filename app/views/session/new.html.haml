@@ -1,0 +1,8 @@
+%h1 Sign in
+
+= form_for :session, html: { id: 'new_session' } do |f|
+  = f.label :email
+  = f.email_field :email
+  = f.label :password
+  = f.password_field :password
+  = f.submit 'Sign in'
