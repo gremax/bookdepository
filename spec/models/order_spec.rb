@@ -13,7 +13,7 @@ RSpec.describe Order, type: :model do
       in_array(%w(in\ progress completed shipped))
   end
 
-  it { should belong_to(:customer) }
+  it { should belong_to(:user) }
   it { should belong_to(:credit_card) }
   it { should belong_to(:billing_address).class_name('Address') }
   it { should belong_to(:shipping_address).class_name('Address') }

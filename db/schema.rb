@@ -68,28 +68,17 @@ ActiveRecord::Schema.define(version: 20150618073543) do
   add_index "countries", ["name"], name: "index_countries_on_name", unique: true, using: :btree
 
   create_table "credit_cards", force: :cascade do |t|
-    t.string   "number",      limit: 16
-    t.string   "exp_month",   limit: 2
-    t.string   "exp_year",    limit: 2
+    t.string   "number",     limit: 16
+    t.string   "exp_month",  limit: 2
+    t.string   "exp_year",   limit: 2
     t.string   "firstname"
     t.string   "lastname"
-    t.integer  "customer_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
-  add_index "credit_cards", ["customer_id"], name: "index_credit_cards_on_customer_id", using: :btree
-
-  create_table "customers", force: :cascade do |t|
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "firstname"
-    t.string   "lastname"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
+  add_index "credit_cards", ["user_id"], name: "index_credit_cards_on_user_id", using: :btree
 
   create_table "order_items", force: :cascade do |t|
     t.decimal  "price",      precision: 5, scale: 2
@@ -106,7 +95,7 @@ ActiveRecord::Schema.define(version: 20150618073543) do
   create_table "orders", force: :cascade do |t|
     t.decimal  "total_price",         precision: 5, scale: 2
     t.string   "state",                                       default: "in progress"
-    t.integer  "customer_id"
+    t.integer  "user_id"
     t.datetime "completed_at"
     t.datetime "created_at",                                                          null: false
     t.datetime "updated_at",                                                          null: false
@@ -116,28 +105,40 @@ ActiveRecord::Schema.define(version: 20150618073543) do
   end
 
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id", using: :btree
-  add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.integer  "score"
     t.text     "review"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "book_id"
-    t.integer  "customer_id"
+    t.integer  "user_id"
   end
 
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id", using: :btree
-  add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.boolean  "is_admin",        default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   add_foreign_key "addresses", "countries"
   add_foreign_key "books", "authors"
   add_foreign_key "books", "categories"
-  add_foreign_key "credit_cards", "customers"
+  add_foreign_key "credit_cards", "users"
   add_foreign_key "order_items", "books"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "credit_cards"
-  add_foreign_key "orders", "customers"
+  add_foreign_key "orders", "users"
   add_foreign_key "ratings", "books"
-  add_foreign_key "ratings", "customers"
+  add_foreign_key "ratings", "users"
 end

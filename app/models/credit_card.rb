@@ -1,5 +1,5 @@
 class CreditCard < ActiveRecord::Base
-  belongs_to :customer
+  belongs_to :user
   has_many :orders, dependent: :destroy
 
   validates :number, :exp_month, :exp_year, :firstname, :lastname, presence: true
