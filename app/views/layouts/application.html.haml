@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Book Depository
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    - if session[:user_id].present?
+      = link_to 'Sign out', '#'
+    - else
+      = link_to 'Sign up', signup_path
+    - flash.each do |name, msg|
+      = content_tag :div, msg, class: "alert alert-#{name}"
+    = yield
