@@ -3,7 +3,8 @@
 
 %p= @book.description
 %p= "Stock: #{@book.stock}"
-%p= "Price: #{@book.price}"
+%p= "Price: #{number_to_currency(@book.price)}"
 
-%p= link_to 'Edit', edit_book_path(@book)
-%p= link_to 'Delete', book_path(@book), method: :delete
+- if signed_in? && current_user.is_admin?
+  %p= link_to 'Edit', edit_book_path(@book)
+  %p= link_to 'Delete', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }
