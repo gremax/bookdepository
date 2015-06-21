@@ -147,6 +147,11 @@ RSpec.describe BooksController, type: :controller do
       expect { delete :destroy, id: book }.to change(Book, :count).by(-1)
     end
 
+    it 'assigns a warning flash message' do
+      delete :destroy, id: book
+      expect(flash[:warning]).not_to be_nil
+    end
+
     it 'redirects to books' do
       delete :destroy, id: book
       expect(response).to redirect_to books_path

@@ -6,3 +6,4 @@
 %p= "Price: #{@book.price}"
 
 %p= link_to 'Edit', edit_book_path(@book)
+%p= link_to 'Delete', book_path(@book), method: :delete
