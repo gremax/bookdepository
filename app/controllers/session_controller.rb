@@ -9,8 +9,13 @@ class SessionController < ApplicationController
       flash[:success] = "Welcome back, #{user.firstname}!"
       redirect_to root_path
     else
-      flash[:danger] = "Invalid combination email/password."
+      flash.now[:danger] = "Invalid combination email/password."
       render :new
     end
+  end
+
+  def destroy
+    session.delete(:user_id)
+    redirect_to root_path
   end
 end

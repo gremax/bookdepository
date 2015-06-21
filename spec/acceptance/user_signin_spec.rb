@@ -33,5 +33,7 @@ feature 'User signin', %q{
     expect(page).to have_content 'Invalid combination'
     expect(page).to_not have_content 'Sign out'
     expect(current_path).to eq signin_path
+    visit root_path
+    expect(page).to_not have_content 'Invalid combination'
   end
 end
