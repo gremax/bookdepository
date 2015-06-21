@@ -11,9 +11,10 @@
  * file per style scope.
  *
  */
- @import 'bootstrap-sprockets';
- @import 'bootstrap';
- @import 'bootstrap/theme';
- @import 'custom';
- @import 'books';
- @import 'users';
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'bootstrap/theme';
+@import 'custom';
+@import 'books';
+@import 'users';
+@import 'store';

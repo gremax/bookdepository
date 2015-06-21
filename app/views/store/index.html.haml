@@ -1,0 +1,7 @@
+%ul.list-unstyled
+  - @books.each do |book|
+    %li.row.entry
+      %h3= link_to book.title, book_path(book)
+      %div= book.description
+      %div.price_line
+        %span.price= number_to_currency(book.price)

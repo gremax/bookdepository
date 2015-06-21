@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'books#index'
+  root to: 'store#index'
   resources :books
   get    'signin',  to: 'session#new',     as: 'signin'
   post   'signin',  to: 'session#create'
