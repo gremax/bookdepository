@@ -1,1 +1,8 @@
 %h1= @book.title
+
+
+%p= @book.description
+%p= "Stock: #{@book.stock}"
+%p= "Price: #{@book.price}"
+
+%p= link_to 'Edit', edit_book_path(@book)

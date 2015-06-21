@@ -24,15 +24,17 @@ class BooksController < ApplicationController
       flash[:success] = "The book successfully added."
       redirect_to @book
     else
-      flash[:success] = "The form contains some errors."
+      flash[:danger] = "The form contains some errors."
       render :new
     end
   end
 
   def update
     if @book.update(book_params)
+      flash[:success] = "The book successfully updated."
       redirect_to @book
     else
+      flash[:danger] = "The form contains some errors."
       render :edit
     end
   end

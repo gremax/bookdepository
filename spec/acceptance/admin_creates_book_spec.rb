@@ -19,9 +19,9 @@ feature 'Create book', %q{
       fill_in 'Description', with: book.description
       fill_in 'Price',       with: book.price
       fill_in 'Stock',       with: book.stock
-      click_on 'Add book'
+      click_on 'Submit'
     end
-    expect(page).to have_content 'The book successfully added.'
+    expect(page).to have_css '.alert', text: 'The book successfully added.'
     expect(page).to have_content book.title
   end
 
@@ -31,21 +31,21 @@ feature 'Create book', %q{
     within '#new_book' do
       fill_in 'Title', with: 'The Martian'
       fill_in 'Price', with: 0
-      click_on 'Add book'
+      click_on 'Submit'
     end
-    expect(page).to have_content 'The form contains some errors.'
+    expect(page).to have_css '.alert', text: 'The form contains some errors.'
   end
 
-  scenario 'Non-authorized user creates a book' do
+  scenario 'Non-authorized user tries to create a book' do
     sign_in(user)
     visit new_book_path
-    expect(page).to have_content 'You need to sign in as administrator'
+    expect(page).to have_css '.alert', text: 'You need to sign in as administrator'
     expect(current_path).to eq root_path
   end
 
-  scenario 'Non-authenticated user creates a book' do
+  scenario 'Non-authenticated user tries to create a book' do
     visit new_book_path
-    expect(page).to have_content 'You need to sign in or sign up'
+    expect(page).to have_css '.alert', text: 'You need to sign in or sign up'
     expect(current_path).to eq root_path
   end
 end

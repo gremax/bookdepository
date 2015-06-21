@@ -1,0 +1,23 @@
+- if @book.errors.any?
+  %div.errors
+    %ul
+      - @book.errors.full_messages.each do |error|
+        %li= error
+
+.row
+  .col-md-offset-3.col-md-6
+    = form_for @book do |f|
+      .form-group
+        = f.label :title
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :description
+        = f.text_area :description, class: 'form-control'
+      .form-group
+        = f.label :price
+        = f.number_field :price, class: 'form-control'
+      .form-group
+        = f.label :stock
+        = f.number_field :stock, class: 'form-control'
+      .form-group
+        = f.submit 'Submit', class: 'btn btn-primary'

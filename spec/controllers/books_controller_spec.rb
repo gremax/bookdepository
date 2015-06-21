@@ -65,6 +65,11 @@ RSpec.describe BooksController, type: :controller do
           to change(Book, :count).by(1)
       end
 
+      it 'assigns a success flash message' do
+        post :create, book: attributes_for(:book)
+        expect(flash[:success]).not_to be_nil
+      end
+
       it 'redirects to show view' do
         post :create, book: attributes_for(:book)
         expect(response).to redirect_to book_path(assigns(:book))
@@ -75,6 +80,11 @@ RSpec.describe BooksController, type: :controller do
       it 'does not save the book' do
         expect { post :create, book: attributes_for(:invalid_book) }.
           to_not change(Book, :count)
+      end
+
+      it 'assigns a danger flash message' do
+        post :create, book: attributes_for(:invalid_book)
+        expect(flash[:danger]).not_to be_nil
       end
 
       it 're-renders new view' do
@@ -98,6 +108,11 @@ RSpec.describe BooksController, type: :controller do
         expect(book.price).to eq(3.14)
       end
 
+      it 'assigns a success flash message' do
+        patch :update, id: book, book: attributes_for(:book)
+        expect(flash[:success]).not_to be_nil
+      end
+
       it 'redirects to the updated book' do
         patch :update, id: book, book: attributes_for(:book)
         expect(response).to redirect_to book
@@ -113,6 +128,10 @@ RSpec.describe BooksController, type: :controller do
         book.reload
         expect(book.title).to eq(book.title)
         expect(book.price).to eq(book.price)
+      end
+
+      it 'assigns a danger flash message' do
+        expect(flash[:danger]).not_to be_nil
       end
 
       it 're-renders edit view' do
