@@ -35,7 +35,7 @@ RSpec.describe SessionController, type: :controller do
         post :create, session: { email: 'wrong_mail', password: '123' }
       end
 
-      it 'assigns a success flash message' do
+      it 'assigns a danger flash message' do
         expect(flash[:danger]).not_to be_nil
       end
 

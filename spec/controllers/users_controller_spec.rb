@@ -43,8 +43,8 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to render_template :new
       end
 
-      it 'assigns an alert flash message' do
-        expect(flash[:alert]).not_to be_nil
+      it 'assigns an danger flash message' do
+        expect(flash[:danger]).not_to be_nil
       end
     end
   end

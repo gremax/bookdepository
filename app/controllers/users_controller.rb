@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome aboard, #{@user.firstname}!"
       redirect_to root_path
     else
-      flash.now[:alert] = "The form contains some errors."
+      flash.now[:danger] = "The form contains some errors."
       render :new
     end
   end

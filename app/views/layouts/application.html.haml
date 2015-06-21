@@ -7,11 +7,22 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    - if session[:user_id].present?
-      = link_to 'Sign out', signout_path, method: :delete
-    - else
-      = link_to 'Sign in', signin_path
-      = link_to 'Sign up', signup_path
-    - flash.each do |name, msg|
-      = content_tag :div, msg, class: "alert alert-#{name}"
-    = yield
+    %header.navbar.navbar-fixed-top.navbar-inverse
+      .container
+        .navbar-header
+          = link_to 'Book Depository', root_path, class: 'navbar-brand logo'
+        %nav
+          %ul.nav.navbar-nav.navbar-right
+            - if session[:user_id].present?
+              %li= link_to 'Sign out', signout_path, method: :delete
+            - else
+              %li= link_to 'Sign in', signin_path
+              %li= link_to 'Sign up', signup_path
+    .container
+      .row
+        .col-md-3
+          %h2 Categories
+        .col-md-9
+          - flash.each do |name, msg|
+            = content_tag :div, msg, class: "alert alert-#{name}"
+          = yield
