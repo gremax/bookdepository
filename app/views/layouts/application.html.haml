@@ -13,7 +13,7 @@
           = link_to 'Book Depository', root_path, class: 'navbar-brand logo'
         %nav
           %ul.nav.navbar-nav.navbar-right
-            - if session[:user_id].present?
+            - if signed_in?
               %li= link_to 'Sign out', signout_path, method: :delete
             - else
               %li= link_to 'Sign in', signin_path

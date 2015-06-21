@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe BooksController, type: :controller do
   let(:book) { create(:book) }
+  let(:admin) { create(:admin) }
+
+  before do
+    sign_in(admin, no_capybara: true)
+  end
 
   describe 'GET #index' do
     let(:books) { create_list(:book, 2) }
