@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CategoriesController, type: :controller do
   let(:admin) { create(:admin) }
+  let(:category) { create(:category) }
 
   before do
     sign_in(admin, no_capybara: true)
@@ -33,20 +34,32 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
+  describe 'GET #edit' do
+    before { get :edit, id: category }
+
+    it 'assigns the requested category to @category' do
+      expect(assigns(:category)).to eq category
+    end
+
+    it 'renders edit view' do
+      expect(response).to render_template :edit
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new category in the database' do
-        expect { post :create, category: { title: 'Fiction' } }.
+        expect { post :create, category: attributes_for(:category) }.
           to change(Category, :count).by(1)
       end
 
       it 'assigns a success flash message' do
-        post :create, category: { title: 'Fiction' }
+        post :create, category: attributes_for(:category)
         expect(flash[:success]).not_to be_nil
       end
 
       it 'redirects to show view' do
-        post :create, category: { title: 'Fiction' }
+        post :create, category: attributes_for(:category)
         expect(response).to redirect_to categories_path
       end
     end
@@ -65,6 +78,50 @@ RSpec.describe CategoriesController, type: :controller do
       it 're-renders new view' do
         post :create, category: { title: '' }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      it 'assigns the requested category to @category' do
+        patch :update, id: category, category: attributes_for(:category)
+        expect(assigns(:category)).to eq category
+      end
+
+      it 'changes category attributes' do
+        patch :update, id: category, category: { title: 'new title' }
+        category.reload
+        expect(category.title).to eq('new title')
+      end
+
+      it 'assigns a success flash message' do
+        patch :update, id: category, category: attributes_for(:category)
+        expect(flash[:success]).not_to be_nil
+      end
+
+      it 'redirects to the categories list' do
+        patch :update, id: category, category: attributes_for(:category)
+        expect(response).to redirect_to categories_path
+      end
+    end
+
+    context 'with invalid attributes' do
+      before do
+        patch :update, id: category, category: { title: '' }
+      end
+
+      it 'does not change category' do
+        category.reload
+        expect(category.title).to eq(category.title)
+      end
+
+      it 'assigns a danger flash message' do
+        expect(flash[:danger]).not_to be_nil
+      end
+
+      it 're-renders edit view' do
+        expect(response).to render_template :edit
       end
     end
   end
