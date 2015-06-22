@@ -1,0 +1,19 @@
+%h1 Categories
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th Title
+      %th Options
+  %tbody
+    - @categories.each do |category|
+      %tr
+        %th{scope: 'row'}= category.id
+        %td= link_to category.title, category
+        %td
+          = link_to 'Edit', edit_category_path(category), class: 'btn btn-success btn-xs'
+          = link_to 'Delete', category_path(category), class: 'btn btn-danger btn-xs',
+            method: :delete, data: { confirm: 'Are you sure?' }
+
+%p= link_to "Add new category", new_category_path, class: "btn btn-primary btn-sm"

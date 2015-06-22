@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :category do
-    title "Science fiction"
+    title { Faker::Lorem.sentence }
   end
 end
