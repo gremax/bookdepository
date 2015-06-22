@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  before_action :load_category, only: [:edit, :update, :destroy]
   before_action :not_signed_user
   before_action :authenticate_admin, if: :signed_in?
 
@@ -11,7 +12,6 @@ class CategoriesController < ApplicationController
   end
 
   def edit
-    @category = Category.find(params[:id])
   end
 
   def create
@@ -26,7 +26,6 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @category = Category.find(params[:id])
     if @category.update(category_params)
       flash[:success] = "The category successfully updated."
       redirect_to categories_path
@@ -36,7 +35,17 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    @category.destroy
+    flash[:warning] = "The category successfully removed."
+    redirect_to categories_path
+  end
+
   private
+
+  def load_category
+    @category = Category.find(params[:id])
+  end
 
   def category_params
     params.require(:category).permit(:title)

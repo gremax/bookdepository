@@ -125,4 +125,22 @@ RSpec.describe CategoriesController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { category }
+
+    it 'deletes category' do
+      expect { delete :destroy, id: category }.to change(Category, :count).by(-1)
+    end
+
+    it 'assigns a warning flash message' do
+      delete :destroy, id: category
+      expect(flash[:warning]).not_to be_nil
+    end
+
+    it 'redirects to books' do
+      delete :destroy, id: category
+      expect(response).to redirect_to categories_path
+    end
+  end
 end
