@@ -1,0 +1,21 @@
+%h1 Authors
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th Name
+      %th Biography
+      %th Options
+  %tbody
+    - @authors.each do |author|
+      %tr
+        %th{scope: 'row'}= author.id
+        %td= link_to "#{author.firstname} #{author.lastname}", author
+        %td= author.biography
+        %td
+          = link_to 'Edit', edit_author_path(author), class: 'btn btn-success btn-xs'
+          = link_to 'Delete', author_path(author), class: 'btn btn-danger btn-xs',
+            method: :delete, data: { confirm: 'Are you sure?' }
+
+%p= link_to 'Add new author', new_author_path, class: 'btn btn-primary'

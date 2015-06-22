@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: 'store#index'
   resources :books
+  resources :authors
   resources :categories
   get    'signin',  to: 'session#new',     as: 'signin'
   post   'signin',  to: 'session#create'
