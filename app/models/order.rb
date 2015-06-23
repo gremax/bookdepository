@@ -9,4 +9,6 @@ class Order < ActiveRecord::Base
   validates :total_price, :state, :completed_at, presence: true
   validates :total_price, numericality: { greater_than_or_equal_to: 0.01 }
   validates :state, inclusion: { in: %w(in\ progress completed shipped) }
+
+  scope :in_progress, -> { where(state: 'in progress') }
 end
