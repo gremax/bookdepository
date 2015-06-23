@@ -1,6 +1,7 @@
 %h1= @book.title
 
 %p= @book.description
+%p= "Author: #{@book.author.full_name}"
 %p= "Category: #{@book.category}"
 %p= "Stock: #{@book.stock}"
 %p= "Price: #{number_to_currency(@book.price)}"

@@ -11,6 +11,9 @@
         = f.label :title
         = f.text_field :title, class: 'form-control'
       .form-group
+        = f.label :author
+        = f.collection_select :author_id, Author.all, :id, :full_name
+      .form-group
         = f.label :description
         = f.text_area :description, class: 'form-control'
       .form-group

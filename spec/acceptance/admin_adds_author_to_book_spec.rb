@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-feature 'Connect book to category', %q{
-  In order to connect a book to a category
+feature 'Connect author to book', %q{
+  In order to connect an author to a book
   As an administrator
-  I want to be able to add the book to the category
+  I want to be able to add the author to the book
 } do
 
   given(:admin) { create(:admin) }
   given!(:book) { create(:book) }
-  given!(:categories) { create_list(:category, 5) }
+  given!(:authors) { create_list(:author, 5) }
 
-  scenario 'Authorized user adds the book category when creates a new book' do
+  scenario 'Authorized user choices the book author when creates a new book' do
     sign_in(admin)
     visit books_path
     click_on 'Add new book'
@@ -18,25 +18,25 @@ feature 'Connect book to category', %q{
       fill_in 'Title', with: 'new book'
       fill_in 'Price', with: 13
       fill_in 'Stock', with: 21
-      select categories.first.title, from: 'book_category_id'
+      select authors.first.full_name, from: 'book_author_id'
       click_on 'Submit'
     end
     expect(page).to have_css '.alert', text: 'The book successfully added.'
-    expect(page).to have_content categories.first
+    expect(page).to have_content authors.first.full_name
   end
 
-  scenario 'Authorized user changes the book category' do
+  scenario 'Authorized user changes the book author' do
     sign_in(admin)
     visit books_path
     click_on 'Edit'
     within '.edit_book' do
-      select book.category.title, from: 'book_category_id'
+      select book.author.full_name, from: 'book_author_id'
       click_on 'Submit'
     end
     expect(page).to have_css '.alert', text: 'The book successfully updated.'
-    expect(page).to have_content book.category.title
+    expect(page).to have_content book.author.full_name
     expect(current_path).to eq book_path(book)
     visit edit_book_path(book)
-    expect(page).to have_select 'book_category_id', selected: book.category.title
+    expect(page).to have_select 'book_author_id', selected: book.author.full_name
   end
 end

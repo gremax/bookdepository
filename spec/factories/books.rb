@@ -5,6 +5,7 @@ FactoryGirl.define do
     price "9.99"
     stock 17
     category
+    author
   end
 
   factory :invalid_book, class: 'Book' do
