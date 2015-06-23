@@ -125,4 +125,22 @@ RSpec.describe AuthorsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { author }
+
+    it 'deletes author' do
+      expect { delete :destroy, id: author }.to change(Author, :count).by(-1)
+    end
+
+    it 'assigns a warning flash message' do
+      delete :destroy, id: author
+      expect(flash[:warning]).not_to be_nil
+    end
+
+    it 'redirects to authors' do
+      delete :destroy, id: author
+      expect(response).to redirect_to authors_path
+    end
+  end
 end

@@ -36,6 +36,13 @@ class AuthorsController < ApplicationController
     end
   end
 
+  def destroy
+    @author = Author.find(params[:id])
+    @author.destroy
+    flash[:warning] = "The author successfully removed."
+    redirect_to authors_path
+  end
+
   private
 
   def author_params
