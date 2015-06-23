@@ -10,6 +10,10 @@ class AuthorsController < ApplicationController
     @author = Author.new
   end
 
+  def edit
+    @author = Author.find(params[:id])
+  end
+
   def create
     @author = Author.new(author_params)
     if @author.save
@@ -18,6 +22,17 @@ class AuthorsController < ApplicationController
     else
       flash.now[:danger] = "The form contains some errors."
       render :new
+    end
+  end
+
+  def update
+    @author = Author.find(params[:id])
+    if @author.update(author_params)
+      flash[:success] = "The author successfully updated."
+      redirect_to authors_path
+    else
+      flash.now[:danger] = "The form contains some errors."
+      render :edit
     end
   end
 

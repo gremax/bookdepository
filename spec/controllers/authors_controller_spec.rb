@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AuthorsController, type: :controller do
   let(:admin) { create(:admin) }
+  let(:author) { create(:author) }
 
   before do
     sign_in(admin, no_capybara: true)
@@ -30,6 +31,18 @@ RSpec.describe AuthorsController, type: :controller do
 
     it 'renders new view' do
       expect(response).to render_template :new
+    end
+  end
+
+  describe 'GET #edit' do
+    before { get :edit, id: author }
+
+    it 'assigns the requested author to @author' do
+      expect(assigns(:author)).to eq author
+    end
+
+    it 'renders edit view' do
+      expect(response).to render_template :edit
     end
   end
 
@@ -65,6 +78,50 @@ RSpec.describe AuthorsController, type: :controller do
       it 're-renders new view' do
         post :create, author: attributes_for(:invalid_author)
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      it 'assigns the requested author to @author' do
+        patch :update, id: author, author: attributes_for(:author)
+        expect(assigns(:author)).to eq author
+      end
+
+      it 'changes author attributes' do
+        patch :update, id: author, author: { firstname: 'Andy' }
+        author.reload
+        expect(author.firstname).to eq('Andy')
+      end
+
+      it 'assigns a success flash message' do
+        patch :update, id: author, author: attributes_for(:author)
+        expect(flash[:success]).not_to be_nil
+      end
+
+      it 'redirects to the authors list' do
+        patch :update, id: author, author: attributes_for(:author)
+        expect(response).to redirect_to authors_path
+      end
+    end
+
+    context 'with invalid attributes' do
+      before do
+        patch :update, id: author, author: attributes_for(:invalid_author)
+      end
+
+      it 'does not change author' do
+        author.reload
+        expect(author.firstname).to eq(author.firstname)
+      end
+
+      it 'assigns a danger flash message' do
+        expect(flash[:danger]).not_to be_nil
+      end
+
+      it 're-renders edit view' do
+        expect(response).to render_template :edit
       end
     end
   end
