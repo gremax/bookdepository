@@ -1,10 +1,14 @@
 class CategoriesController < ApplicationController
-  before_action :load_category, only: [:edit, :update, :destroy]
-  before_action :not_signed_user
+  before_action :load_category, except: [:index, :new, :create]
+  before_action :not_signed_user, except: [:show]
   before_action :authenticate_admin, if: :signed_in?
 
   def index
     @categories = Category.all
+  end
+
+  def show
+    @books = @category.books
   end
 
   def new

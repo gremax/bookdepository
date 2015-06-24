@@ -21,7 +21,10 @@
     .container
       .row
         .col-md-3
-          %h2 Categories
+          .list-group
+            - Category.order(:title).each do |category|
+              - act = params[:id] == category.id.to_s ? 'active' : nil
+              = link_to category.title, category, class: "list-group-item #{act}"
         .col-md-9
           - flash.each do |name, msg|
             = content_tag :div, msg, class: "alert alert-#{name}"

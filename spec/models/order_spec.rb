@@ -24,13 +24,13 @@ RSpec.describe Order, type: :model do
   end
 
   describe '.in_progress' do
+    let(:orders) { create_list(:order_with_random_state, 5) }
+
     it 'doesn\'t return all orders'  do
-      orders = create_list(:order_with_random_state, 5)
       expect(orders).to_not match_array(Order.in_progress)
     end
 
     it 'returns orders in progress' do
-      orders = create_list(:order_with_random_state, 5)
       expect(Order.in_progress).to match_array(Order.where(state: 'in progress'))
     end
   end

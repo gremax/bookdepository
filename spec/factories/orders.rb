@@ -9,10 +9,6 @@ FactoryGirl.define do
       state { %w(in\ progress completed shipped).sample }
     end
 
-    trait :one_user do
-      user
-    end
-
-    factory :order_with_random_state, traits: [:random_state, :one_user]
+    factory :order_with_random_state, traits: [:random_state]
   end
 end

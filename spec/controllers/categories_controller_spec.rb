@@ -22,6 +22,18 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before { get :show, id: category }
+
+    it 'assigns the requested category books to @books' do
+      expect(assigns(:books)).to eq category.books
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
   describe 'GET #new' do
     before { get :new }
 
