@@ -29,5 +29,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'faker'
+  gem 'fuubar'
 end
 
