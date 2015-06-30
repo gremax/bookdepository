@@ -12,13 +12,15 @@
         = f.text_field :title, class: 'form-control'
       .form-group
         = f.label :author
-        = f.collection_select :author_id, Author.all, :id, :full_name
+        = f.collection_select :author_id, Author.all, :id, :full_name,
+          { prompt: true }, { class: 'form-control' }
       .form-group
         = f.label :description
         = f.text_area :description, class: 'form-control'
       .form-group
         = f.label :category
-        = f.collection_select :category_id, Category.all, :id, :title
+        = f.collection_select :category_id, Category.all, :id, :title,
+          { prompt: true }, { class: 'form-control' }
       .form-group
         = f.label :price
         = f.number_field :price, class: 'form-control'

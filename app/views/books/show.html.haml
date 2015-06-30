@@ -1,8 +1,10 @@
 %h1= @book.title
 
 %p= @book.description
-%p= "Author: #{@book.author.full_name}"
-%p= "Category: #{@book.category}"
+- if @book.author.present?
+  %p= "Author: #{@book.author.full_name}"
+- if @book.category.present?
+  %p= "Category: #{@book.category}"
 %p= "Stock: #{@book.stock}"
 %p= "Price: #{number_to_currency(@book.price)}"
 
