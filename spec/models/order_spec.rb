@@ -34,4 +34,24 @@ RSpec.describe Order, type: :model do
       expect(Order.in_progress).to match_array(Order.where(state: 'in progress'))
     end
   end
+
+  describe '.add_book' do
+    let(:book) { create(:book) }
+    let(:order) { build(:order) }
+
+    before { order.add_book(book) }
+
+    it 'adds a book to the order' do
+      expect(order.order_items.last.book).to eq book
+    end
+
+    it 'doesn\'t return the same book twice' do
+      expect { order.add_book(book) }.to_not change { order.order_items.size }
+    end
+
+    it 'increments order item quantity' do
+      expect { order.add_book(book) }.
+        to change { order.order_items.last.quantity }.from(1).to(2)
+    end
+  end
 end

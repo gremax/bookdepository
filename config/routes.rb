@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :books
   resources :authors
   resources :categories
+  resources :order_items, only: [:create, :update, :destroy]
+  resource  :cart, only: :show
   get    'signin',  to: 'session#new',     as: 'signin'
   post   'signin',  to: 'session#create'
   delete 'signout', to: 'session#destroy'

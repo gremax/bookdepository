@@ -8,6 +8,9 @@
   p, div.price_line {
     margin-top: 0.5em;
     margin-bottom: 0.8em;
+    form {
+      display: inline;
+    }
   }
   .price {
     font-weight: bold;

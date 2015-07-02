@@ -11,4 +11,15 @@ class Order < ActiveRecord::Base
   validates :state, inclusion: { in: %w(in\ progress completed shipped) }
 
   scope :in_progress, -> { where(state: 'in progress') }
+
+  def add_book(book)
+    current_item = order_items.where(book: book).first
+    if current_item
+      current_item.increment(:quantity)
+    else
+      current_item = order_items.build(book: book, quantity: 1)
+      current_item.price = book.price
+    end
+    current_item.save
+  end
 end
