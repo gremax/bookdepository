@@ -24,6 +24,11 @@ group :development, :test do
   gem 'guard-rspec'
 end
 
+group :development do
+  gem 'pry-rails'
+  gem 'pry-doc'
+end
+
 group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
