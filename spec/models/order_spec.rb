@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
+  let(:book) { create(:book) }
+  let(:order) { build(:order) }
+
+  before { order.add_book(book) }
+
   describe 'validation' do
     it { should validate_presence_of(:total_price) }
     it { should validate_presence_of(:state) }
@@ -36,22 +41,29 @@ RSpec.describe Order, type: :model do
   end
 
   describe '.add_book' do
-    let(:book) { create(:book) }
-    let(:order) { build(:order) }
-
-    before { order.add_book(book) }
-
     it 'adds a book to the order' do
       expect(order.order_items.last.book).to eq book
     end
 
     it 'doesn\'t return the same book twice' do
-      expect { order.add_book(book) }.to_not change { order.order_items.size }
+      expect { order.add_book(book) }.to_not change { order.order_items }
     end
 
     it 'increments order item quantity' do
       expect { order.add_book(book) }.
         to change { order.order_items.last.quantity }.from(1).to(2)
+    end
+  end
+
+  describe '.calc_total_price' do
+    it 'returns total price for an order item' do
+      expect(order.calc_total_price).to eq book.price
+    end
+
+    it 'returns total price for several order items' do
+      order.add_book(book)
+      expect { order.calc_total_price }.
+        to change { order.total_price }.from(9.99).to(19.98)
     end
   end
 end

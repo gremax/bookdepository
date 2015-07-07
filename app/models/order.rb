@@ -13,13 +13,19 @@ class Order < ActiveRecord::Base
   scope :in_progress, -> { where(state: 'in progress') }
 
   def add_book(book)
-    current_item = order_items.where(book: book).first
-    if current_item
-      current_item.increment(:quantity)
-    else
-      current_item = order_items.build(book: book, quantity: 1)
-      current_item.price = book.price
-    end
+    current_item = self.order_items.find_or_initialize_by(book: book,
+      price: book.price)
+    current_item.increment(:quantity)
     current_item.save
+  end
+
+  def calc_total_price
+    self.total_price = self.order_items.map do |oi|
+      if oi.valid?
+        oi.quantity * oi.price
+      else
+        nil
+      end
+    end.sum
   end
 end
