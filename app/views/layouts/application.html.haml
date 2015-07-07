@@ -14,6 +14,7 @@
         %nav
           %ul.nav.navbar-nav.navbar-right
             - if signed_in?
+              %li= link_to 'Cart', cart_path
               %li= link_to 'Sign out', signout_path, method: :delete
             - else
               %li= link_to 'Sign in', signin_path
@@ -23,8 +24,8 @@
         .col-md-3
           .list-group
             - Category.order(:title).each do |category|
-              - act = params[:id] == category.id.to_s ? 'active' : nil
-              = link_to category.title, category, class: "list-group-item #{act}"
+              - act = params[:id] == category.id.to_s ? ' active' : nil
+              = link_to category.title, category, class: "list-group-item#{act}"
         .col-md-9
           - flash.each do |name, msg|
             = content_tag :div, msg, class: "alert alert-#{name}"

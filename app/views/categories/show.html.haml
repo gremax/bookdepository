@@ -9,7 +9,3 @@
         %span.price= number_to_currency(book.price)
         = button_to 'Add to Cart', order_items_path(book_id: book),
           class: 'btn btn-success btn-sm'
-
-Order Items
-= current_order.order_items.each { |oi| oi }
-

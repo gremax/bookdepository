@@ -1,0 +1,18 @@
+%h1 Your cart
+
+%table.table
+  %thead
+    %tr
+      %th Book
+      %th Price
+      %th Qty
+  %tbody
+    - @order_items.each do |item|
+      %tr
+        %td= item.book.title
+        %td= item.price
+        %td= item.quantity
+    %tr
+      %td.total_price{colspan: 2} Total price:
+      %td
+        %b= @order_items.first.order.total_price

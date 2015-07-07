@@ -1,21 +1,19 @@
 class OrderItemsController < ApplicationController
+  before_action :not_signed_user
+
   def create
     book = Book.find(params[:book_id])
-    @order = current_order
-    @order_item = @order.order_items.build(book: book)
-    @order.save
-    if @order_item.save
-      flash[:success] = "Order Item created."
-      redirect_to @order_item.cart
+    order = current_order
+    order.add_book(book)
+    order.completed_at = Time.now
+    order.calc_total_price
+    if order.save
+      flash[:success] = "The book successfully added to the Cart."
+      session[:order_id] = order.id
+      redirect_to cart_path
     else
-      flash[:danger] = "Some error."
-      redirect_to root_path
+      flash.now[:danger] = "We have some problems."
+      redirect_to :back
     end
   end
-
-  # private
-
-  # def order_item_params
-  #   params.require(:order_item).permit(:quantity, :book_id)
-  # end
 end

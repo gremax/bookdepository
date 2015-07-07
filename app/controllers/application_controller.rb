@@ -3,13 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include SessionHelper
-  helper_method :current_order
 
   def current_order
     if session[:order_id].present?
       Order.find(session[:order_id])
     else
-      current_user.orders.new
+      current_user.orders.build
     end
   end
 end

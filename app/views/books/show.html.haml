@@ -1,13 +1,18 @@
 %h1= @book.title
 
-%p= @book.description
 - if @book.author.present?
   %p= "Author: #{@book.author.full_name}"
 - if @book.category.present?
   %p= "Category: #{@book.category}"
+%p= @book.description
 %p= "Stock: #{@book.stock}"
 %p= "Price: #{number_to_currency(@book.price)}"
 
+= button_to 'Add to Cart', order_items_path(book_id: @book),
+  class: 'btn btn-success btn-sm'
+
 - if signed_in? && current_user.is_admin?
-  %p= link_to 'Edit', edit_book_path(@book)
-  %p= link_to 'Delete', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }
+  %div
+    = link_to 'Edit', edit_book_path(@book)
+    = link_to 'Delete', book_path(@book), method: :delete,
+      data: { confirm: 'Are you sure?' }
